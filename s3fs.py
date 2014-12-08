@@ -9,7 +9,7 @@ class s3fsInstaller(ClusterSetup):
     def run(self, nodes, master, user, user_shell, volumes):
         log.info("Installing required packages")
         master.ssh.execute('apt-get -y update')
-        node.ssh.execute('apt-get -y install libfuse-dev fuse-utils libcurl4-openssl-dev libxml2-dev libtool')
+        master.ssh.execute('apt-get -y install libfuse-dev fuse-utils libcurl4-openssl-dev libxml2-dev libtool')
 
         log.info('Installing s3fs-fuse')
         master.ssh.execute('git clone https://github.com/s3fs-fuse/s3fs-fuse /tmp/s3fs')
