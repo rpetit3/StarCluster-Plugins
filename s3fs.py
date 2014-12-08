@@ -22,5 +22,4 @@ class s3fsInstaller(ClusterSetup):
         master.ssh.execute('mkdir -p /mnt/s3/staphopia-samples')
         master.ssh.execute("echo '{0}:{1}' > /etc/passwd-s3fs".format(self.aws_access_key, self.aws_secret_key))
         master.ssh.execute('chmod 640 /etc/passwd-s3fs')
-        master.ssh.execute("echo 's3fs#staphopia-samples /mnt/s3/staphopia-samples fuse allow_other 0 0' >> /etc/fstab")
         master.ssh.execute('s3fs staphopia-samples /mnt/s3/staphopia-samples -o allow_other')
