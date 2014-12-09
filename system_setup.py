@@ -5,7 +5,7 @@ class SystemInstaller(ClusterSetup):
     def run(self, nodes, master, user, user_shell, volumes):
         for node in nodes:
             log.info("Installing required packages")
-            master.ssh.execute('apt-get -y update')
+            node.ssh.execute('apt-get -y update')
             node.ssh.execute('apt-get -y install libmysqlclient-dev libpq-dev')
 
             log.info("Updating PIP and setuptools")
@@ -34,3 +34,8 @@ class SystemInstaller(ClusterSetup):
             node.ssh.execute('apt-get -y update')
             node.ssh.execute('apt-get -y install r-base r-base-dev')
             node.ssh.execute('echo "install.packages(\"ggplot2\", repos=\"http://cran.fhcrc.org\")" >> /tmp/install_ggplot2.Rscript')
+
+            log.info('Remove Apache2')
+            node.ssh.execute('service apache2 stop')
+            node.ssh.execute('apt-get -y --purge remove apache2*')
+            node.ssh.execute('apt-get -y autoremove')
