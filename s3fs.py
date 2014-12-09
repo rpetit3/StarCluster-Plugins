@@ -19,7 +19,7 @@ class s3fsInstaller(ClusterSetup):
         master.ssh.execute('cd /tmp/s3fs && make install')
 
         log.info('Mounting S3 bucket')
-        master.ssh.execute('mkdir -p /mnt/s3/staphopia-samples')
+        master.ssh.execute('mkdir -p /staphopia/s3/staphopia-samples')
         master.ssh.execute("echo '{0}:{1}' > /etc/passwd-s3fs".format(self.aws_access_key, self.aws_secret_key))
         master.ssh.execute('chmod 640 /etc/passwd-s3fs')
-        master.ssh.execute('s3fs staphopia-samples /mnt/s3/staphopia-samples -o allow_other')
+        master.ssh.execute('s3fs staphopia-samples /staphopia/s3/staphopia-samples -o allow_other')

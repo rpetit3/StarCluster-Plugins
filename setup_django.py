@@ -1,3 +1,5 @@
+import time
+
 from starcluster.clustersetup import ClusterSetup
 from starcluster.logger import log
 
@@ -31,4 +33,5 @@ class SetupDjango(ClusterSetup):
         master.ssh.execute('supervisorctl reread')
         master.ssh.execute('supervisorctl update')
         master.ssh.execute('service supervisor stop')
+        time.sleep(5)
         master.ssh.execute('service supervisor start')
