@@ -9,7 +9,7 @@ class s3fsInstaller(ClusterSetup):
     def run(self, nodes, master, user, user_shell, volumes):
         for node in nodes:
             log.info('Mounting S3 bucket')
-            node.ssh.execute('s3fs staphopia /staphopia/s3/staphopia -o allow_other')
+            node.ssh.execute('s3fs staphopia /staphopia/s3 -o allow_other')
 
     def on_add_node(self, node, nodes, master, user, user_shell, volumes):
         log.info('Mounting S3 bucket')
