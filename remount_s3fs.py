@@ -8,4 +8,4 @@ class s3fsRemount(ClusterSetup):
 
     def run(self, nodes, master, user, user_shell, volumes):
         log.info('Mounting S3 bucket')
-        master.ssh.execute('s3fs staphopia-samples /staphopia/s3/staphopia-samples -o allow_other')
+        master.ssh.execute('s3fs staphopia /staphopia/s3/staphopia -o allow_other')
