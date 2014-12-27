@@ -2,6 +2,10 @@ from starcluster.clustersetup import ClusterSetup
 from starcluster.logger import log
 
 class SystemInstaller(ClusterSetup):
+    def __init__(self, aws_access_key, aws_secret_key):
+        self.aws_access_key = aws_access_key
+        self.aws_secret_key = aws_secret_key
+
     def run(self, nodes, master, user, user_shell, volumes):
         for node in nodes:
             log.info("Installing required packages")
@@ -39,3 +43,18 @@ class SystemInstaller(ClusterSetup):
             node.ssh.execute('service apache2 stop')
             node.ssh.execute('apt-get -y --purge remove apache2*')
             node.ssh.execute('apt-get -y autoremove')
+
+            log.info("Installing required packages")
+            node.ssh.execute('apt-get -y install libfuse-dev fuse-utils libcurl4-openssl-dev libxml2-dev libtool')
+
+            log.info('Installing s3fs-fuse')
+            node.ssh.execute('git clone https://github.com/s3fs-fuse/s3fs-fuse /tmp/s3fs')
+            node.ssh.execute('cd /tmp/s3fs && ./autogen.sh')
+            node.ssh.execute('cd /tmp/s3fs && ./configure --prefix=/usr --with-openssl')
+            node.ssh.execute('cd /tmp/s3fs && make')
+            node.ssh.execute('cd /tmp/s3fs && make install')
+
+            log.info('Setup s3fs-fuse mount point')
+            node.ssh.execute('mkdir -p /staphopia/s3/staphopia-samples')
+            node.ssh.execute("echo '{0}:{1}' > /etc/passwd-s3fs".format(self.aws_access_key, self.aws_secret_key))
+            node.ssh.execute('chmod 640 /etc/passwd-s3fs')
