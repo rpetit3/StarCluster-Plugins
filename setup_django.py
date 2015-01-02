@@ -19,7 +19,6 @@ class SetupDjango(ClusterSetup):
                 master.ssh.execute('chgrp -R staphopia /staphopia/ebs/staphopia.com')
 
                 log.info("Installing Python libraries")
-                master.ssh.execute('curl https://bootstrap.pypa.io/ez_setup.py | python')
                 master.ssh.execute('pip install -r /staphopia/ebs/staphopia.com/requirements.txt')
 
                 log.info("Migrating Django DB")
@@ -41,7 +40,6 @@ class SetupDjango(ClusterSetup):
                 master.ssh.execute('service supervisor start')
             else:
                 log.info("Installing Django related libraries")
-                node.ssh.execute('curl https://bootstrap.pypa.io/ez_setup.py | python')
                 node.ssh.execute('pip install -r /staphopia/ebs/staphopia.com/requirements.txt')
 
     def on_add_node(self, node, nodes, master, user, user_shell, volumes):
@@ -49,5 +47,4 @@ class SetupDjango(ClusterSetup):
             log.info("Master node, not doing anything.")
         else:
             log.info("Installing Django related libraries")
-            node.ssh.execute('curl https://bootstrap.pypa.io/ez_setup.py | python')
             node.ssh.execute('pip install -r /staphopia/ebs/staphopia.com/requirements.txt')
