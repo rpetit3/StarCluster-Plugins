@@ -47,6 +47,7 @@ class SystemInstaller(ClusterSetup):
             log.info("Installing required packages")
             node.ssh.execute('apt-get -y install libfuse-dev fuse-utils libcurl4-openssl-dev libxml2-dev libtool')
 
+            ''' S3FS not being used at the moment.
             log.info('Installing s3fs-fuse')
             node.ssh.execute('git clone https://github.com/s3fs-fuse/s3fs-fuse /tmp/s3fs')
             node.ssh.execute('cd /tmp/s3fs && ./autogen.sh')
@@ -58,3 +59,4 @@ class SystemInstaller(ClusterSetup):
             node.ssh.execute('mkdir -p /staphopia/s3/staphopia-samples')
             node.ssh.execute("echo '{0}:{1}' > /etc/passwd-s3fs".format(self.aws_access_key, self.aws_secret_key))
             node.ssh.execute('chmod 640 /etc/passwd-s3fs')
+            '''
