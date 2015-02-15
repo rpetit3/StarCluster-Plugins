@@ -30,7 +30,7 @@ class SystemInstaller(ClusterSetup):
             node.ssh.execute('echo "django-email-changer==0.1.2" >> /tmp/requirements.txt')
             node.ssh.execute('echo "django-storages==1.1.8" >> /tmp/requirements.txt')
             node.ssh.execute('echo "boto==2.32.1" >> /tmp/requirements.txt')
-            node.ssh.execute('pip install -r /tmp/requirements.txt')
+            node.ssh.execute('pip install --upgrade -r /tmp/requirements.txt')
 
             log.info('Installing R, ggplot2')
             node.ssh.execute('apt-key adv --keyserver keyserver.ubuntu.com --recv-keys E084DAB9')
